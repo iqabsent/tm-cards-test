@@ -1,5 +1,5 @@
 # TM front-end tech test
 
-doing the thing
-- static pages; html, js, css (that's the plan)
-- will need a web server, so probably express
+just open index.html in a browser
+it's just an `.html` file, with styles
+.. and a script doing some heavy lifting 
