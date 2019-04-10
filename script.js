@@ -7,35 +7,33 @@ const cards = [
         credit: 1200,
         requirements: [{
             type: "occupationIs",
-            field: "occupation",
             value: "student"
         }]
     },
     {
         name: "Anywhere Card",
         apr: 33.9,
-        bt_duration: 0,
-        p_duration: 0,
+        btDuration: 0,
+        purchaseDuration: 0,
         credit: 300,
         requirements: []
     },
     {
         name: "Liquid Card",
         apr: 33.9,
-        bt_duration: 12,
-        p_duration: 6,
+        btDuration: 12,
+        purchaseDuration: 6,
         credit: 3000,
         requirements: [{
             type: "minIncome",
-            field: "income",
             value: 16000
         }]
     }
 ]
 
 const requirementEvaluators = {
-    occupationIs: (value, requirement) => value === requirement,
-    minIncome: (value, requirement) => value >= requirement,
+    occupationIs: (applicantData, requirement) => applicantData.occupation === requirement.value,
+    minIncome: (applicantData, requirement) => applicantData.income >= requirement.value,
 }
 
 function checkRequirements(card, applicantData) {
@@ -47,7 +45,7 @@ function checkRequirements(card, applicantData) {
                 console.warn(`No requirement evaluator for ${requirement.type} requirement on ${card.name}`)
                 return false // requirement not met by default
             }
-            return evaluator(applicantData[requirement.field], requirement.value)
+            return evaluator(applicantData, requirement)
         }
     )
 }
@@ -63,5 +61,26 @@ function handleFormSubmit(e) {
 
     const availableCards = cards.filter(card => checkRequirements(card, formData));
 
-    console.log(availableCards)
+    document.querySelector('#form').classList.add('hidden')
+    document.querySelector('#results').classList.remove('hidden')
+
+    renderCards(availableCards)
+}
+
+function renderCards(cards) {
+    const container = document.querySelector('#available')
+    const newList = document.createDocumentFragment()
+    cards.forEach(card => {
+        const element = document.createElement('li')
+        element.innerHTML = `
+            <h2>${card.name}</h2>
+            <div>${card.apr}% APR</div>
+            <div>${card.btDuration ? card.btDuration + ' months' : 'No'}  BT offer</div>
+            <div>${card.purchaseDuration ? card.purchaseDuration + ' months' : 'No' } Purchase offer</div>
+            <div>&pound;${card.credit} credit limit</div>
+        `
+        newList.append(element)
+    })
+    container.innerHTML = ''
+    container.append(newList)
 }
