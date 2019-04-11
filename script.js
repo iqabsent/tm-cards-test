@@ -72,12 +72,16 @@ function renderCards(cards) {
     const newList = document.createDocumentFragment()
     cards.forEach(card => {
         const element = document.createElement('li')
+        element.classList.add('card')
         element.innerHTML = `
             <h2>${card.name}</h2>
-            <div>${card.apr}% APR</div>
-            <div>${card.btDuration ? card.btDuration + ' months' : 'No'}  BT offer</div>
-            <div>${card.purchaseDuration ? card.purchaseDuration + ' months' : 'No' } Purchase offer</div>
-            <div>&pound;${card.credit} credit limit</div>
+            <div class='card-image'></div>
+            <div class='card-info'>
+                <div>${card.apr}% APR</div>
+                <div>${card.btDuration ? card.btDuration + ' months' : 'No'}  BT offer</div>
+                <div>${card.purchaseDuration ? card.purchaseDuration + ' months' : 'No' } Purchase offer</div>
+                <div>&pound;${card.credit} credit limit</div>
+            </div>
         `
         newList.append(element)
     })

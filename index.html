@@ -7,33 +7,33 @@
         <section id='form'>
             <h1>Fill in the form</h1>
             <form onsubmit='handleFormSubmit(event)'>
-                <div>
+                <div class='form-field'>
                     <label for='name'>Name</label>
                     <input type='text' name='name' />
                 </div>
-                <div>
+                <div class='form-field'>
                     <label for='surname'>Surname</label>
                     <input type='text' name='surname' />
                 </div>
-                <div>
+                <div class='form-field'>
                     <label for='income'>Annual Income</label>
                     <input type='text' name='income' />
                 </div>
-                <div>
+                <div class='form-field'>
                     <label for='occupation'>Occupation</label>
-                    <div>
+                    <div class='radio-option'>
                         <input type="radio" id="full-time" name="occupation" value="full-time" checked>
                         <label for="full-time">full-time</label>
                     </div>
-                    <div>
+                    <div class='radio-option'>
                         <input type="radio" id="part-time" name="occupation" value="part-time">
                         <label for="part-time">part-timne</label>
                     </div>
-                    <div>
+                    <div class='radio-option'>
                         <input type="radio" id="student" name="occupation" value="student">
                         <label for="student">student</label>
                     </div>
-                    <div>
+                    <div class='radio-option'>
                         <input type="radio" id="other" name="occupation" value="other">
                         <label for="other">other</label>
                     </div>
@@ -42,7 +42,7 @@
             </form>
         </section>
         <section id='results' class='hidden'>
-            <h1>Pick a card(s), any card(s) ..</h1>
+            <h1>Pick a card, any card ..</h1>
             <ul id='available'></ul>
         </section>
     </body>
