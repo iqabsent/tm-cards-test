@@ -1,0 +1,15 @@
+{
+  "name": "wvandermerwe",
+  "version": "1.0.0",
+  "description": "just open index.html in a browser it's just an `.html` file, with styles .. and a script doing some heavy lifting",
+  "main": "index.html",
+  "scripts": {
+    "test": "jest",
+    "start": "cat readme.md"
+  },
+  "author": "wvandermerwe@totallymoney.com",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^24.7.1"
+  }
+}

@@ -73,6 +73,7 @@
                     occupation: document.querySelector('[name=occupation]:checked').value
                 }
                 app.state.availableCards = _getCards().filter(card => app.util.checkRequirements(card, formData))
+                // hide form, show results
                 document.getElementById('form').classList.add('hidden')
                 document.getElementById('results').classList.remove('hidden')
                 // render total credit and available cards
