@@ -2,6 +2,11 @@ body {
     font-family: Helvetica, Arial, sans-serif
 }
 
+section {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
 ul {
     list-style-type: none;
     padding-left: 0;
