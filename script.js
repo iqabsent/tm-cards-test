@@ -1,6 +1,7 @@
 const state = {
     availableCards: [],
-    selectedCards: []
+    selectedCards: [],
+    totalCredit: 0
 }
 
 const cards = [
@@ -48,11 +49,16 @@ function checkRequirements(card, applicantData) {
             const evaluator = requirementEvaluators[requirement.type]
             if (typeof evaluator !== 'function') {
                 console.warn(`No requirement evaluator for ${requirement.type} requirement on ${card.name}`)
-                return false // unrecognised requirement not met by default
+                return false // unrecognised requirement: not met by default
             }
             return evaluator(applicantData, requirement)
         }
     )
+}
+
+function sanitise(text) { // creates URI-friendly version of a string
+    if (typeof text !== 'string') { return text }
+    return encodeURIComponent(text.toLowerCase().replace(/\s/g,'-'))
 }
 
 function handleFormSubmit(e) {
@@ -65,10 +71,29 @@ function handleFormSubmit(e) {
     state.availableCards = cards.filter(card => checkRequirements(card, formData));
     document.querySelector('#form').classList.add('hidden')
     document.querySelector('#results').classList.remove('hidden')
-    renderCards(state.availableCards)
+    // render total credit and available cards
+    renderTotalCredit(0)
+    renderAvailableCards(state.availableCards)
 }
 
-function renderCards(cards) {
+function handleToggleSelect(cardName) {
+    const selectedCards = state.selectedCards;
+    const cardIndex = selectedCards.indexOf(cardName);
+    // update selectedCards in state
+    (cardIndex === -1)
+        ? selectedCards.push(cardName)
+        : selectedCards.splice(cardIndex, 1)
+    // recalculate totalCredit in state 
+    state.totalCredit = state.availableCards.reduce(
+        (accumulator, card) => accumulator + (selectedCards.includes(sanitise(card.name)) ? card.credit : 0),
+        0
+    )
+    // re-render total credit and available cards
+    renderTotalCredit(state.totalCredit);
+    renderAvailableCards(state.availableCards);
+}
+
+function renderAvailableCards(cards) {
     const container = document.querySelector('#available')
     const newList = document.createDocumentFragment()
     cards.forEach(card => {
@@ -97,16 +122,6 @@ function renderCards(cards) {
     container.append(newList)
 }
 
-function handleToggleSelect(cardName) {
-    const selectedCards = state.selectedCards;
-    const cardIndex = selectedCards.indexOf(cardName);
-    (cardIndex === -1)
-        ? selectedCards.push(cardName)
-        : selectedCards.splice(cardIndex, 1)
-    renderCards(state.availableCards);
-}
-
-function sanitise(text) {
-    if (typeof text !== 'string') { return text }
-    return encodeURIComponent(text.toLowerCase().replace(/\s/g,'-'))
+function renderTotalCredit(totalCredit) {
+    document.getElementById('credit').innerHTML = `Total credit provided by selected cards: &pound;${totalCredit}`
 }
