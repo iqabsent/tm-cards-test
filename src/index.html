@@ -9,15 +9,24 @@
             <form onsubmit='app.handlers.formSubmit(event)'>
                 <div class='form-field'>
                     <label for='name'>Name</label>
-                    <input type='text' name='name' />
+                    <input type='text' name='name' pattern="^[a-zA-Z'\\-\\. ]{1,}$"
+                        oninvalid="this.setCustomValidity('Name, please (no special characters)')"
+                        oninput="this.setCustomValidity('')"
+                    />
                 </div>
                 <div class='form-field'>
                     <label for='surname'>Surname</label>
-                    <input type='text' name='surname' />
+                    <input type='text' name='surname' pattern="^[a-zA-Z'\\-\\. ]{1,}$"
+                        oninvalid="this.setCustomValidity('Surname, please (no special characters)')"
+                        oninput="this.setCustomValidity('')"
+                    />
                 </div>
                 <div class='form-field'>
                     <label for='income'>Annual Income</label>
-                    <input type='text' name='income' />
+                    <input type='number' name='income' pattern="[0-9]{,10}" required
+                        oninvalid="this.setCustomValidity('Income in pound, please .. 0 to 1mil')"
+                        oninput="this.setCustomValidity('')"
+                    />
                 </div>
                 <div class='form-field'>
                     <label for='occupation'>Occupation</label>
@@ -45,6 +54,7 @@
             <h1>Pick a card, any card ..</h1>
             <div id='credit'></div>
             <ul id='available'></ul>
+            <button onclick="app.handlers.back(event)">Go back</button>
         </section>
     </body>
 </html>

@@ -37,9 +37,9 @@
     // app to expose/export
     const app = {
         state: {
-            availableCards: [],
-            selectedCards: [],
-            totalCredit: 0
+            availableCards: [], // cards for which requirements are met
+            selectedCards: [], // card name hashes of selected cards
+            totalCredit: 0 // total credit provided by selected cards
         },
         util: {
             requirementEvaluators: {
@@ -80,22 +80,30 @@
                 app.render.totalCredit(0)
                 app.render.availableCards(app.state.availableCards, app.state.selectedCards)
             },
-            toggleSelect: (e) => {
+            toggleSelectCard: (e) => {
+                // we track selected cards with hashes of the card name only
                 const cardNameHash = e.target.dataset.id
                 const selectedCards = app.state.selectedCards
-                const cardIndex = selectedCards.indexOf(cardNameHash); // example of when you need a semicolon
+                const cardIndex = selectedCards.indexOf(cardNameHash)
+                const isSelected = (cardIndex !== -1); // example of when you need a semicolon
                 // update selectedCards in state
-                (cardIndex === -1)
-                    ? selectedCards.push(cardNameHash)
-                    : selectedCards.splice(cardIndex, 1)
+                (isSelected)
+                    ? selectedCards.splice(cardIndex, 1)
+                    : selectedCards.push(cardNameHash)
                 // recalculate totalCredit in state 
                 app.state.totalCredit = app.state.availableCards.reduce(
+                    // accumulate credit limits from selected cards only
                     (accumulator, card) => accumulator + (selectedCards.includes(app.util.hash(card.name)) ? card.credit : 0),
                     0
                 )
                 // re-render total credit and available cards
                 app.render.totalCredit(app.state.totalCredit)
                 app.render.availableCards(app.state.availableCards, app.state.selectedCards)
+            },
+            back: (e) => {
+                // hide results, show form
+                document.getElementById('form').classList.remove('hidden')
+                document.getElementById('results').classList.add('hidden')
             }
         },
         render: {
@@ -113,14 +121,14 @@
                     element.classList.add('card')
                     element.innerHTML = `
                         <h3 class='card-name'>${card.name}</h3>
-                        <div class='card-image'></div>
+                        <div class='card-image' title='${card.name} image'></div>
                         <div class='card-info'>
                             <div>${card.apr}% APR</div>
                             <div>${card.btDuration ? card.btDuration + ' months' : 'No'}  BT offer</div>
                             <div>${card.purchaseDuration ? card.purchaseDuration + ' months' : 'No' } Purchase offer</div>
                             <div>&pound;${card.credit} credit limit</div>
                         </div>
-                        <button data-id='${app.util.hash(card.name)}' onclick='app.handlers.toggleSelect(event)'>${action}</button>
+                        <button data-id='${app.util.hash(card.name)}' onclick='app.handlers.toggleSelectCard(event)'>${action}</button>
                     `
                     newList.append(element)
                 })

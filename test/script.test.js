@@ -13,7 +13,7 @@ describe('app', () => {
     })       
     test('.. exposes handler functions', () => {
         expect(typeof app.handlers.formSubmit).toBe('function')
-        expect(typeof app.handlers.toggleSelect).toBe('function')
+        expect(typeof app.handlers.toggleSelectCard).toBe('function')
     })
     test('.. exposes render functions', () => {
         expect(typeof app.render.totalCredit).toBe('function')

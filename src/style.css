@@ -81,3 +81,33 @@ form button {
     transform: rotate(-15deg);
     font-size: 2.5em;
 }
+
+@media only screen and (max-width: 575px) {
+    .card {
+        max-width: 260px;
+        margin: 0 auto;
+        padding-bottom: 11px;
+        border-bottom: 1px solid #ccc;
+    }
+    .card-image {
+        grid-column: 1 / 5;
+    }
+    .card-info {
+        grid-column: 1 / 5;
+        align-items: center;
+    }
+    .card button {
+        grid-column: 1 / 5;
+        margin: 10px;
+        height: 40px;
+    }
+}
+
+@media only screen and (max-width: 475px) {
+    .form-field>label,
+    .form-field>input,
+    .form-field>.radio-option,
+    form button {
+        grid-column: 1 / 5;
+    }
+}
