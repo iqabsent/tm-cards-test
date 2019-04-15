@@ -101,6 +101,8 @@
                 app.render.availableCards(app.state.availableCards, app.state.selectedCards)
             },
             back: (e) => {
+                // reset app state
+                app.state.selectedCards = []
                 // hide results, show form
                 document.getElementById('form').classList.remove('hidden')
                 document.getElementById('results').classList.add('hidden')
@@ -139,7 +141,7 @@
                 document.getElementById('credit').innerHTML = `Total credit provided by selected cards: &pound;${totalCredit}`
             }
         }
-    } 
+    }
 
     // expose app as global in window
     if (typeof window !== 'undefined') {
