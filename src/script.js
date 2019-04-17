@@ -34,6 +34,13 @@
             }
         ].slice() // always a copy
     }
+    const _getRef = (id) => {
+        if (typeof document === 'undefined') {
+            console.warn('Attempting to get DOM node ref, but document does not exist')
+            return {}
+        }
+        return document.getElementById(id)
+    }
     // app to expose/export
     const app = {
         state: {
@@ -74,8 +81,8 @@
                 }
                 app.state.availableCards = _getCards().filter(card => app.util.checkRequirements(card, formData))
                 // hide form, show results
-                document.getElementById('form').classList.add('hidden')
-                document.getElementById('results').classList.remove('hidden')
+                app.refs.form.classList.add('hidden')
+                app.refs.results.classList.remove('hidden')
                 // render total credit and available cards
                 app.render.totalCredit(0)
                 app.render.availableCards(app.state.availableCards, app.state.selectedCards)
@@ -104,13 +111,18 @@
                 // reset app state
                 app.state.selectedCards = []
                 // hide results, show form
-                document.getElementById('form').classList.remove('hidden')
-                document.getElementById('results').classList.add('hidden')
+                app.refs.form.classList.remove('hidden')
+                app.refs.results.classList.add('hidden')
             }
+        },
+        refs: {
+            form: _getRef('form'),
+            results: _getRef('results'),
+            cards: _getRef('cards'),
+            credit: _getRef('credit')
         },
         render: {
             availableCards: (cards, selectedCards) => {
-                const container = document.getElementById('available')
                 const newList = document.createDocumentFragment()
                 cards.forEach(card => {
                     const element = document.createElement('li')
@@ -134,11 +146,11 @@
                     `
                     newList.append(element)
                 })
-                container.innerHTML = ''
-                container.append(newList)
+                app.refs.cards.innerHTML = ''
+                app.refs.cards.append(newList)
             },
             totalCredit: (totalCredit) => {
-                document.getElementById('credit').innerHTML = `Total credit provided by selected cards: &pound;${totalCredit}`
+                app.refs.credit.innerHTML = `Total credit provided by selected cards: &pound;${totalCredit}`
             }
         }
     }

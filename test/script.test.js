@@ -15,6 +15,12 @@ describe('app', () => {
         expect(typeof app.handlers.formSubmit).toBe('function')
         expect(typeof app.handlers.toggleSelectCard).toBe('function')
     })
+    test('.. exposes refs to key dom nodes', () => {
+        expect(typeof app.refs.form).toBe('object')
+        expect(typeof app.refs.results).toBe('object')
+        expect(typeof app.refs.credit).toBe('object')
+        expect(typeof app.refs.cards).toBe('object')
+    })
     test('.. exposes render functions', () => {
         expect(typeof app.render.totalCredit).toBe('function')
         expect(typeof app.render.availableCards).toBe('function')
